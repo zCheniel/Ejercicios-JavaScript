@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Pesos de Alumnos</title>
+</head>
+<body>
+    <h1>Estadísticas de Pesos de Alumnos</h1>
+    <button onclick="calcularEstadisticas()">Calcular Estadísticas</button>
+    <div id="resultados">
+        <p>Alumnos de menos de 40kg: <span id="menosDe40kg">0</span></p>
+        <p>Alumnos entre 40kg y 50kg: <span id="entre40y50kg">0</span></p>
+        <p>Alumnos de más de 50kg y menos de 60kg: <span id="entre50y60kg">0</span></p>
+        <p>Alumnos de más o igual a 60kg: <span id="masDe60kg">0</span></p>
+    </div>
+
+    <script>
+        function calcularEstadisticas() {
+            // Crear un arreglo vacío para los pesos
+            const pesos = [];
+
+            // Pedir al usuario que ingrese la cantidad de pesos
+            const cantidadAlumnos = parseInt(prompt("Ingrese la cantidad de alumnos:"));
+
+            // Solicitar los pesos de cada alumno
+            for (let i = 1; i <= cantidadAlumnos; i++) {
+                const peso = parseFloat(prompt("Ingrese el peso del alumno " + i + " en kg:"));
+                if (!isNaN(peso)) {
+                    pesos.push(peso);
+                } else {
+                    alert("Por favor, ingrese un valor numérico válido.");
+                    i--; // Restar i para que el usuario pueda ingresar el peso nuevamente.
+                }
+            }
+
+            // Función para contar alumnos en cada rango de peso
+            let menosDe40kg = 0;
+            let entre40y50kg = 0;
+            let entre50y60kg = 0;
+            let masDe60kg = 0;
+
+            for (let i = 0; i < pesos.length; i++) {
+                const peso = pesos[i];
+                if (peso < 40) {
+                    menosDe40kg++;
+                } else if (peso >= 40 && peso < 50) {
+                    entre40y50kg++;
+                } else if (peso >= 50 && peso < 60) {
+                    entre50y60kg++;
+                } else {
+                    masDe60kg++;
+                }
+            }
+
+            // Mostrar resultados en el HTML
+            document.getElementById("menosDe40kg").textContent = menosDe40kg;
+            document.getElementById("entre40y50kg").textContent = entre40y50kg;
+            document.getElementById("entre50y60kg").textContent = entre50y60kg;
+            document.getElementById("masDe60kg").textContent = masDe60kg;
+        }
+    </script>
+</body>
+</html>

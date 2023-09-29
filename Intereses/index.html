@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Intereses</title>
+</head>
+<body>
+    <h1>Calculadora de Intereses de Cuenta de Ahorros</h1>
+    <form id="interestCalculator">
+        <label for="initialAmount">Monto Inicial:</label>
+        <input type="number" id="initialAmount" placeholder="Ingrese el monto inicial" required><br><br>
+
+        <label for="monthlyDeposit">Depósito Mensual:</label>
+        <input type="number" id="monthlyDeposit" placeholder="Ingrese el depósito mensual" required><br><br>
+
+        <button type="button" onclick="calculateInterest()">Calcular Interés</button><br><br>
+    </form>
+
+    <h2>Resultado:</h2>
+    <p id="result"></p>
+
+    <script>
+        function calculateInterest() {
+            const initialAmount = parseFloat(document.getElementById("initialAmount").value);
+            const monthlyDeposit = parseFloat(document.getElementById("monthlyDeposit").value);
+            const annualInterestRate = 15; // Tasa de interés anual del 15%
+            const monthlyInterestRate = (annualInterestRate / 12) / 100; // Tasa de interés mensual
+
+            let futureValue = initialAmount;
+
+            for (let month = 1; month <= 12; month++) {
+                futureValue += monthlyDeposit;
+                futureValue *= (1 + monthlyInterestRate);
+            }
+
+            const resultElement = document.getElementById("result");
+            resultElement.textContent = "El saldo a fin de año es: " + futureValue.toFixed(2) + " bolívares";
+        }
+    </script>
+</body>
+</html>
