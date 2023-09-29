@@ -1,37 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Calificaciones de Alumnos</title>
+    <title>Calculadora de Notas</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Calificaciones de Alumnos</h1>
-    <form id="inputForm">
-        <label for="cedula">Cedula:</label>
-        <input type="text" id="cedula" required><br>
+    <h1>Calculadora de Notas</h1>
+    <p>Ingrese los datos de los alumnos:</p>
+    <button onclick="agregarAlumno()">Agregar Alumno</button>
+    <button onclick="calcularResultados()">Calcular Resultados</button>
 
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required><br>
+    <table>
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Matemáticas</th>
+                <th>Física</th>
+                <th>Programación</th>
+            </tr>
+        </thead>
+        <tbody id="tablaDatos">
+            <!-- Aquí se mostrarán los datos ingresados por el usuario -->
+        </tbody>
+    </table>
 
-        <label for="matematicas">Matemáticas:</label>
-        <input type="number" id="matematicas" min="0" max="20" required><br>
+    <h2>Resultados:</h2>
+    <p>Promedio de Notas:</p>
+    <p id="promedioMatematicas"></p>
+    <p id="promedioFisica"></p>
+    <p id="promedioProgramacion"></p>
 
-        <label for="fisica">Física:</label>
-        <input type="number" id="fisica" min="0" max="20" required><br>
+    <p>Número de Alumnos Aprobados:</p>
+    <p id="aprobadosMatematicas"></p>
+    <p id="aprobadosFisica"></p>
+    <p id="aprobadosProgramacion"></p>
 
-        <label for="programacion">Programación:</label>
-        <input type="number" id="programacion" min="0" max="20" required><br>
+    <p>Número de Alumnos Reprobados:</p>
+    <p id="reprobadosMatematicas"></p>
+    <p id="reprobadosFisica"></p>
+    <p id="reprobadosProgramacion"></p>
 
-        <button type="button" id="agregar">Agregar</button>
-    </form>
+    <p>Número de Alumnos que Aprobaron Todas las Materias:</p>
+    <p id="aprobadosTodas"></p>
 
-    <h2>Resultados</h2>
-    <div id="resultados">
-        <!-- Los resultados se mostrarán aquí -->
-    </div>
+    <p>Número de Alumnos que Aprobaron una Sola Materia:</p>
+    <p id="aprobadosUnaMateria"></p>
 
-    <script src="script.js"></script>
+    <p>Número de Alumnos que Aprobaron Dos Materias:</p>
+    <p id="aprobadosDosMaterias"></p>
+
+    <p>Nota Máxima en Cada Materia:</p>
+    <p id="maximaMatematicas"></p>
+    <p id="maximaFisica"></p>
+    <p id="maximaProgramacion"></p>
+
+    <script>
+        const datos = [];
+
+        function agregarAlumno() {
+            const cedula = prompt("Ingrese la cédula del alumno:");
+            const nombre = prompt("Ingrese el nombre del alumno:");
+            const matematicas = parseFloat(prompt("Ingrese la nota de matemáticas:"));
+            const fisica = parseFloat(prompt("Ingrese la nota de física:"));
+            const programacion = parseFloat(prompt("Ingrese la nota de programación:"));
+
+            datos.push({
+                cedula: cedula,
+                nombre: nombre,
+                matematicas: matematicas,
+                fisica: fisica,
+                programacion: programacion
+            });
+
+            // Mostrar los datos en la tabla
+            const tabla = document.getElementById("tablaDatos");
+            const fila = document.createElement("tr");
+            fila.innerHTML = `
+                <td>${cedula}</td>
+                <td>${nombre}</td>
+                <td>${matematicas}</td>
+                <td>${fisica}</td>
+                <td>${programacion}</td>
+            `;
+            tabla.appendChild(fila);
+        }
+
+        function calcularResultados() {
+            // Inicializar contadores
+            let promedioMatematicas = 0;
+            let promedioFisica = 0;
+            let promedioProgramacion = 0;
+            let aprobadosMatematicas = 0;
+            let aprobadosFisica = 0;
+            let aprobadosProgramacion = 0;
+            let reprobadosMatematicas = 0;
+            let reprobadosFisica = 0;
+            let reprobadosProgramacion = 0;
+            let aprobadosTodas = 0;
+            let aprobadosUnaMateria = 0;
+            let aprobadosDosMaterias = 0;
+            let maximaMatematicas = 0;
+            let maximaFisica = 0;
+            let maximaProgramacion = 0;
+
+            for (const alumno of datos) {
+                // Calcular promedio de notas de cada materia
+                promedioMatematicas += alumno.matematicas;
+                promedioFisica += alumno.fisica;
+                promedioProgramacion += alumno.programacion;
+
+                // Contar aprobados y reprobados en cada materia
+                if (alumno.matematicas >= 10) aprobadosMatematicas++;
+                else reprobadosMatematicas++;
+                if (alumno.fisica >= 10) aprobadosFisica++;
+                else reprobadosFisica++;
+                if (alumno.programacion >= 10) aprobadosProgramacion++;
+                else reprobadosProgramacion++;
+
+                // Verificar aprobados en todas las materias
+                if (alumno.matematicas >= 10 && alumno.fisica >= 10 && alumno.programacion >= 10) {
+                    aprobadosTodas++;
+                }
+
+                // Verificar aprobados en una sola materia
+                const materiasAprobadas = [alumno.matematicas >= 10, alumno.fisica >= 10, alumno.programacion >= 10];
+                const aprobadasCount = materiasAprobadas.filter(aprobada => aprobada).length;
+                if (aprobadasCount === 1) {
+                    aprobadosUnaMateria++;
+                }
+
+                // Verificar aprobados en dos materias
+                if (aprobadasCount === 2) {
+                    aprobadosDosMaterias++;
+                }
+
+                // Calcular notas máximas
+                maximaMatematicas = Math.max(maximaMatematicas, alumno.matematicas);
+                maximaFisica = Math.max(maximaFisica, alumno.fisica);
+                maximaProgramacion = Math.max(maximaProgramacion, alumno.programacion);
+            }
+
+            // Calcular promedios
+            promedioMatematicas /= datos.length;
+            promedioFisica /= datos.length;
+            promedioProgramacion /= datos.length;
+
+            // Mostrar resultados
+            document.getElementById("promedioMatematicas").textContent = `Promedio Matemáticas: ${promedioMatematicas.toFixed(2)}`;
+            document.getElementById("promedioFisica").textContent = `Promedio Física: ${promedioFisica.toFixed(2)}`;
+            document.getElementById("promedioProgramacion").textContent = `Promedio Programación: ${promedioProgramacion.toFixed(2)}`;
+
+            document.getElementById("aprobadosMatematicas").textContent = `Aprobados Matemáticas: ${aprobadosMatematicas}`;
+            document.getElementById("aprobadosFisica").textContent = `Aprobados Física: ${aprobadosFisica}`;
+            document.getElementById("aprobadosProgramacion").textContent = `Aprobados Programación: ${aprobadosProgramacion}`;
+
+            document.getElementById("reprobadosMatematicas").textContent = `Reprobados Matemáticas: ${reprobadosMatematicas}`;
+            document.getElementById("reprobadosFisica").textContent = `Reprobados Física: ${reprobadosFisica}`;
+            document.getElementById("reprobadosProgramacion").textContent = `Reprobados Programación: ${reprobadosProgramacion}`;
+
+            document.getElementById("aprobadosTodas").textContent = `Aprobaron Todas las Materias: ${aprobadosTodas}`;
+            document.getElementById("aprobadosUnaMateria").textContent = `Aprobaron una Sola Materia: ${aprobadosUnaMateria}`;
+            document.getElementById("aprobadosDosMaterias").textContent = `Aprobaron Dos Materias: ${aprobadosDosMaterias}`;
+
+            document.getElementById("maximaMatematicas").textContent = `Nota Máxima Matemáticas: ${maximaMatematicas}`;
+            document.getElementById("maximaFisica").textContent = `Nota Máxima Física: ${maximaFisica}`;
+            document.getElementById("maximaProgramacion").textContent = `Nota Máxima Programación: ${maximaProgramacion}`;
+        }
+    </script>
 </body>
 </html>
