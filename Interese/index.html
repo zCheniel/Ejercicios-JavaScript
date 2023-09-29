@@ -2,11 +2,62 @@
 <html>
 <head>
     <title>Calculadora de Intereses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #interestCalculator {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Calculadora de Intereses de Cuenta de Ahorros</h1>
+    <h1>Calculadora de Intereses</h1>
     <form id="interestCalculator">
-        <label for="initialAmount">Monto Inicial:</label>
+        <label for="initialAmount">Monto Inicial de la cuenta:</label>
         <input type="number" id="initialAmount" placeholder="Ingrese el monto inicial" required><br><br>
 
         <label for="monthlyDeposit">Depósito Mensual:</label>
